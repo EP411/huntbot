@@ -4,22 +4,24 @@ from discord import client
 from discord import member
 from discord.ext import commands
 from discord.ext.commands import Bot
+from discord.utils import get
 
 TOKEN = os.environ.get('DISCORD_TOKEN')
 
 client = commands.Bot(command_prefix ='.')
 
+code_au = []
+hof_guild_channels = { 734158340799725568: 805317843238912021 }
+
+message_reaction_count = {}
+
 @client.event
 async def on_ready():
     print('Bot is ready')
-    
 
 @client.event
 async def on_member_join(member):
     print(f'{member} has joined a server.')
-    
-code_au = []
-
 
 @client.command()
 async def setcode(ctx, code):
@@ -29,7 +31,7 @@ async def setcode(ctx, code):
 
 @client.command()
 async def code(ctx):
-    await ctx.send(code_au)
+    await ctx.send(code_au[0])
 
 @client.command()
 async def avatar(ctx, *,  avamember : discord.Member=None):
@@ -294,10 +296,42 @@ async def kenny2(ctx, ):
     await ctx.send('basically you just take the ting and you just whack her in the face. one time. assert your dominance')
 
 
+@client.event
+async def on_raw_reaction_add(payload):
+    print("-------------------------------------------------")
+    print(payload)
+    print(payload.guild_id)
+    print("-------------------------------------------------")
+    
+    if payload.emoji.name == '⭐':
 
+        channel_id = hof_guild_channels[payload.guild_id]
+        hof_channel = client.get_channel(channel_id)
+        message_channel = client.get_channel(payload.channel_id)
+        message = await message_channel.fetch_message(payload.message_id)
 
+        print("-------------------------------------------------")
+        print(message)
+        print("-------------------------------------------------")
 
+        reaction = get(message.reactions, emoji=payload.emoji.name)
 
+        print("-------------------------------------------------")
+        print(reaction)
+        print("-------------------------------------------------")
 
+        if reaction and reaction.count > 0 and hof_channel is not None:
+            await hof_channel.send('you man reacted ' + str(reaction.count) + ' times')
+
+@client.event
+async def on_raw_reaction_remove(payload):
+    print("-------------------------------------------------")
+    print(payload)
+    print(payload.guild_id)
+    print("-------------------------------------------------")
+    channel_id = hof_guild_channels[payload.guild_id]
+    channel = client.get_channel(channel_id)
+    if channel is not None:
+        await channel.send('you man unreacted')
 
 client.run(TOKEN)
