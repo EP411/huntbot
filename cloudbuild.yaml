@@ -1,11 +1,6 @@
 steps:
 - name: gcr.io/cloud-builders/docker
-  args: [ build, --build-arg, DISCORD_TOKEN_PARAMETER=$$DISCORD_SECRET, -t, gcr.io/$PROJECT_ID/huntbot, . ]
-  secretEnv: 'DISCORD_SECRET'
-availableSecrets:
-  secretManager:
-  - versionName: projects/1008164042736/secrets/DISCORD_SECRET/versions/1
-    env: 'DISCORD_SECRET'
+  args: [ build, --build-arg, DISCORD_TOKEN_PARAMETER=$_DISCORD_TOKEN, -t, gcr.io/$PROJECT_ID/huntbot, . ]
 
 images:
 - gcr.io/$PROJECT_ID/huntbot
