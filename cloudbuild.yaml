@@ -1,9 +1,12 @@
 steps:
 - name: gcr.io/cloud-builders/docker
   args: [ build, --build-arg, DISCORD_TOKEN_PARAMETER=$_DISCORD_TOKEN, -t, gcr.io/$PROJECT_ID/huntbot, . ]
+# Push the container image to Container Registry
+- name: gcr.io/cloud-builders/docker
+  args: [push, gcr.io/$PROJECT_ID/huntbot]
 # Deploy container image to Cloud Run
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: gcloud
-  args: ['run', 'deploy', 'huntbot', '--image', 'gcr.io/$PROJECT_ID/huntbot', '--region', 'us-central1', '--platform', 'managed']
+  args: [run, deploy, huntbot, --image, gcr.io/$PROJECT_ID/huntbot, --region, us-central1, --platform, managed]
 images:
 - gcr.io/$PROJECT_ID/huntbot
