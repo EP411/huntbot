@@ -3,7 +3,7 @@ import os
 from discord import client
 from discord import member
 from discord.ext import commands
-from discord.ext.commands import Bot
+from discord.ext.commands import Bot , has_permissions, CheckFailure
 from discord.utils import get
 from random import randint
 
@@ -314,6 +314,17 @@ async def huntball(ctx, *args):
        await ctx.send("u didn't ask a question dingus") 
     else:
         await ctx.send(responses[randint(0, 17)])
+        
+@client.command(pass_context=True)
+@has_permissions(administrator=True)
+async def nickname(ctx, member: discord.Member, *nick):
+    await member.edit(nick=' '.join(nick))
+    await ctx.send(f'Nickname chinged and changed for {member.mention} ')  
+
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send('nice try bucko')    
 
 @client.event
 async def on_raw_reaction_add(payload):
