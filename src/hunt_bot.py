@@ -319,8 +319,12 @@ async def huntball(ctx, *args):
 @has_permissions(administrator=True)
 async def nickname(ctx, member: discord.Member, *nick):
     await member.edit(nick=' '.join(nick))
-    await ctx.send(f'Nickname chinged and changed for {member.mention} ')        
-       
+    await ctx.send(f'Nickname chinged and changed for {member.mention} ')  
+
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send('nice try bucko')    
 
 @client.event
 async def on_raw_reaction_add(payload):
