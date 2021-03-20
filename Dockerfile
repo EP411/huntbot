@@ -16,5 +16,6 @@ RUN pip install -r requirements.txt
 COPY src/ .
 
 ENV DISCORD_TOKEN=${DISCORD_TOKEN_PARAMETER}
+ENV PORT 8080
 
-CMD ["python", "./hunt_bot.py"]
+CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 hunt_bot:app

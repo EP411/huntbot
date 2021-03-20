@@ -6,6 +6,7 @@ from discord.ext import commands
 from discord.ext.commands import Bot , has_permissions, CheckFailure
 from discord.utils import get
 from random import randint
+from flask import Flask, request
 
 TOKEN = os.environ.get('DISCORD_TOKEN')
 
@@ -13,6 +14,20 @@ client = commands.Bot(command_prefix ='.')
 
 code_au = []
 hof_guild_channels = { 734158340799725568: 805317843238912021, 515215609252806694: 805344270516355092 }
+
+
+app = Flask(__name__)
+
+@app.route("/", methods=["GET"])
+def hello():
+    """ Return a friendly HTTP greeting. """
+    who = request.args.get("who", "World")
+    return f"Hello {who}!\n"
+
+if __name__ == "__main__":
+    # Used when running locally only. When deploying to Cloud Run,
+    # a webserver process such as Gunicorn will serve the app.
+    app.run(host="localhost", port=8080, debug=True)
 
 @client.event
 async def on_ready():
@@ -41,7 +56,7 @@ async def avatar(ctx, *,  avamember : discord.Member=None):
 
 @client.command()
 async def ping(ctx):
-    await ctx.send('Pong! {0}'.format(round(client.latency, 1)))
+    await ctx.send('Pong! {0} (latency)'.format(round(client.latency, 1)))
 
 
 @client.command()
