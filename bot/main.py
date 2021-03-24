@@ -1,12 +1,13 @@
 import discord
 import os
+import spotipy
 from discord import client
 from discord import member
 from discord.ext import commands
-from discord.ext.commands import Bot , has_permissions, CheckFailure
+from discord.ext.commands import Bot, has_permissions, CheckFailure
 from discord.utils import get
+from spotipy.oauth2 import SpotifyClientCredentials
 from random import randint
-from flask import Flask, request
 
 TOKEN = os.environ.get('DISCORD_TOKEN')
 
@@ -15,19 +16,26 @@ client = commands.Bot(command_prefix ='.')
 code_au = []
 hof_guild_channels = { 734158340799725568: 805317843238912021, 515215609252806694: 805344270516355092 }
 
-
-app = Flask(__name__)
-
-@app.route("/", methods=["GET"])
-def hello():
-    """ Return a friendly HTTP greeting. """
-    who = request.args.get("who", "World")
-    return f"Hello {who}!\n"
-
-if __name__ == "__main__":
-    # Used when running locally only. When deploying to Cloud Run,
-    # a webserver process such as Gunicorn will serve the app.
-    app.run(host="localhost", port=8080, debug=True)
+class townfolk:
+    def __init__(self, name, atid, spid):
+        self.name = name
+        self.atid = atid
+        self.spid = spid
+#town-members
+t1 = townfolk("eric", "<@271053996607668224>", "12101882002")
+t2 = townfolk("nirali", "<@208899101251731457>", "nshah.09")
+t3 = townfolk("luke", "<@290610640681304067>", "luke.boggs")
+t4 = townfolk("kenny", "<@243783099056521216>", "31rijeosb5jedkcuem3wiwlmoqji")
+t5 = townfolk("yasmin", "<@168321927788756992>", "yasmini786")
+t6 = townfolk("jee", "<@277234038358409216>", "1120950395")
+t7 = townfolk("colby", "<@324171365953437706>", "9hdn93a35t2a76i5l38oohm9y")
+t8 = townfolk("kayli", "<@344874131633733644>", "kmichellee18")
+t9 = townfolk("hayley", "<@335916257255882754>", "xxpixierosexx")
+t10 = townfolk("andrew", "<@221453697610153984>", "1235123943")
+t11 = townfolk("aliza", "<@294676085692694529>", "12167522275")
+t12 = townfolk("grace", "<@209500777058795520>", "gracearnault")
+t13 = townfolk("karly", "<@319500995568861189>", "w9roaz5iozv9hnxkfpz2bk97d")
+t14 = townfolk("andrew alt", "<@221453697610153984>", "t53pqizd38i3qu0vyoo91tmov")
 
 @client.event
 async def on_ready():
@@ -53,10 +61,9 @@ async def avatar(ctx, *,  avamember : discord.Member=None):
     userAvatarUrl = avamember.avatar_url
     await ctx.send(userAvatarUrl)
 
-
 @client.command()
 async def ping(ctx):
-    await ctx.send('Pong! {0} (latency)'.format(round(client.latency, 1)))
+    await ctx.send('Pong! {0}'.format(round(client.latency, 1)))
 
 
 @client.command()
@@ -316,7 +323,7 @@ async def playlist(ctx, ):
     
 @client.command()
 async def activity(ctx, ):
-    await ctx.send('any town activities?')    
+    await ctx.send('any town activities?')
 
 @client.command()
 async def fbi(ctx, ):
@@ -329,17 +336,97 @@ async def huntball(ctx, *args):
        await ctx.send("u didn't ask a question dingus") 
     else:
         await ctx.send(responses[randint(0, 17)])
-        
+
 @client.command(pass_context=True)
 @has_permissions(administrator=True)
 async def nickname(ctx, member: discord.Member, *nick):
     await member.edit(nick=' '.join(nick))
-    await ctx.send(f'Nickname chinged and changed for {member.mention} ')  
+    await ctx.send(f'Nickname chinged and changed for {member.mention} ')
 
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send('nice try bucko')    
+        await ctx.send('nice try bucko')
+
+c_playlist = ''
+
+@client.command()
+async def whoadded(ctx, ):
+    channel = ctx.channel
+    messages = await channel.history(limit=10).flatten()
+    track_id = ''
+    spp = ''
+    def match_spotify_discord(spp):
+        if spp == t1.spid:
+            return t1.atid
+        if spp == t2.spid:
+            return t2.atid
+        if spp == t3.spid:
+            return t3.atid
+        if spp == t4.spid:
+            return t4.atid
+        if spp == t5.spid:
+            return t5.atid
+        if spp == t6.spid:
+            return t6.atid
+        if spp == t7.spid:
+            return t7.atid
+        if spp == t8.spid:
+            return t8.atid
+        if spp == t9.spid:
+            return t9.atid
+        if spp == t10.spid:
+            return t10.atid
+        if spp == t11.spid:
+            return t11.atid
+        if spp == t12.spid:
+            return t12.atid
+        if spp == t13.spid:
+            return t13.atid
+    for message in messages:
+        if message.author.name == 'Groovy':
+            groovy_message = await channel.fetch_message(message.id)
+            # [Young Thug - Memo](https://open.spotify.com/track/7tk5tOCj84jine8kKJkPYs) [<@290610640681304067>]
+            print('--------------------------------')
+            print(groovy_message.embeds[0].description)
+            print('--------------------------------')
+            track_id = groovy_message.embeds[0].description.split('/track/')[1].split(')')[0]
+            print('--------------------------------')
+            print(track_id)
+            print('--------------------------------')
+            break
+
+    auth_manager = SpotifyClientCredentials()
+    sp = spotipy.Spotify(auth_manager=auth_manager)
+
+    playlist = sp.playlist('4L93dDm2jsDxXVaRXL7Nfd')
+    tracks = playlist.get("tracks")
+
+    while tracks:
+        print('--------------------------------')
+        print(tracks.get("items")[0])
+        print('--------------------------------')
+        print('--------------------------------')
+        print(len(playlist.get("tracks").get("items")))
+        print('--------------------------------')
+# (track.get("added_by").get("id"))
+        for track in tracks.get("items"):
+            print(track.get('track').get('id'))
+            print('----------')
+            if track_id == track.get('track').get('id'):
+                spp = track.get("added_by").get("id") 
+                #print(track.get("added_by").get("id"))
+                #print('----------')
+                #print(spp)
+                #print('----------')
+                #print(match_spotify_discord(spp))
+                return await ctx.send('song was added by ' + match_spotify_discord(spp))
+
+        
+        tracks = sp.next(tracks)
+
+    await ctx.send("Not found")
+
 
 @client.event
 async def on_raw_reaction_add(payload):
@@ -373,5 +460,5 @@ async def on_raw_reaction_add(payload):
 
 def link_generator(text, url):
     return '[' + text + '](' + url + ')'
-    
+
 client.run(TOKEN)
