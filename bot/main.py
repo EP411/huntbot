@@ -475,4 +475,9 @@ async def on_raw_reaction_add(payload):
 def link_generator(text, url):
     return '[' + text + '](' + url + ')'
 
+@client.command()
+async def cog(ctx, ):
+    await ctx.send('your posse is coggers')
+
+
 client.run(TOKEN)
