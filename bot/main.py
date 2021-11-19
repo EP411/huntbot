@@ -337,10 +337,10 @@ async def pog(ctx, ):
 async def sheesh(ctx, ):
     await ctx.send('sheeeeeeeesh')
 
-@client.command(pass_context=True)
-@has_permissions(administrator=True)
-async def clean(ctx, amount=5 ):
-        await ctx.channel.purge(limit=amount)
+# @client.command(pass_context=True)
+# @has_permissions(administrator=True)
+# async def clean(ctx, amount=5 ):
+#         await ctx.channel.purge(limit=amount)
 
 
 @client.command()
