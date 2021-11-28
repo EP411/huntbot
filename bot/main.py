@@ -1,4 +1,6 @@
 import discord
+print(discord.__version__)
+print(discord.__file__)
 import os
 import spotipy
 from discord import client
@@ -8,9 +10,11 @@ from discord.ext.commands import Bot, has_permissions, CheckFailure
 from discord.utils import get
 from spotipy.oauth2 import SpotifyClientCredentials
 from random import randint
+import time 
 
 TOKEN = os.environ.get('DISCORD_TOKEN')
-
+intents = discord.Intents.all()
+client = discord.Client(intents=intents)
 client = commands.Bot(command_prefix ='.')
 
 code_au = []
@@ -337,11 +341,23 @@ async def pog(ctx, ):
 async def sheesh(ctx, ):
     await ctx.send('sheeeeeeeesh')
 
-@client.command(pass_context=True)
-@has_permissions(administrator=True)
-async def clean(ctx, amount=5 ):
-        await ctx.channel.purge(limit=amount)
+#@client.command(pass_context=True)
+#@has_permissions(administrator=True)
+#async def clean(ctx, amount=5 ):
+#        await ctx.channel.purge(limit=amount)
 
+@client.command()
+async def bozo(ctx):
+    members = []
+    for guild in client.guilds:
+        print(guild.members)
+        for member in guild.members:
+            if not member.bot:
+                members.append(member)
+    print(members)
+    bozo = members[randint(0, len(members)-1)]
+    await ctx.send(f"BOZO of the day <@{bozo.id}>")
+    await ctx.send(bozo.avatar_url)
 
 @client.command()
 async def huntball(ctx, *args):
