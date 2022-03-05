@@ -487,6 +487,9 @@ def link_generator(text, url):
 async def cog(ctx, ):
     await ctx.send('your posse is coggers')
 
+@client.command()
+async def tori(ctx, ):
+    await ctx.send('I FUCKING LOVE PLANTS')
 
 @client.event
 async def on_message(message):
