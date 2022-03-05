@@ -353,6 +353,12 @@ async def huntball(ctx, *args):
     else:
         await ctx.send(responses[randint(0, 17)])
 
+@client.command()
+async def huntiscope(ctx, ):
+    responses = ["you will die tomorrow :/", "sav is gonna ching your nan very soon. Look out!", "the town will be restored to the way she once was", "you need to get some head or the world gon end", "send ltdizzy some mom pics or else", "a financial opportunity is looming (selling feet pics)", "ahaha heyyyyyyy", "you are bozo of the day", "due to the time of year you were born I can confidently say that you will sneeze today", "no hoes", "she'll text you back this time, send her another one"]
+    
+    await ctx.send(responses[randint(0, len(responses) - 1)])
+
 @client.command(pass_context=True)
 @has_permissions(administrator=True)
 async def nickname(ctx, member: discord.Member, *nick):
