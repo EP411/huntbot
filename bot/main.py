@@ -355,7 +355,7 @@ async def huntball(ctx, *args):
 
 @client.command()
 async def huntiscope(ctx, ):
-    responses = ["you will die tomorrow :/", "sav is gonna ching your nan very soon. Look out!", "the town will be restored to the way she once was", "you need to get some head or the world gon end", "send ltdizzy some mom pics or else", "a financial opportunity is looming (selling feet pics)", "ahaha heyyyyyyy", "you are bozo of the day", "due to the time of year you were born I can confidently say that you will sneeze today", "no hoes", "she'll text you back this time, send her another one"]
+    responses = ["you will die tomorrow :/", "sav is gonna ching your nan very soon. Look out!", "the town will be restored to the way she once was", "you need to get some head or the world gon end", "send ltdizzy some mom pics or else", "a financial opportunity is looming (selling feet pics)", "ahaha heyyyyyyy", "you are bozo of the day", "due to the time of year you were born I can confidently say that you will sneeze today", "no hoes", "she'll text you back this time, send her another one", "Kenny will bless you with his presence today", "You will get exposed for being a toon", "Christy will send you a cat picture today 🐱", "They probably fell asleep…", "Watch out! Colby wants to eat your ass", "It’s your lucky day! Miranda will send the chat a selfie", "I am sensing some Kokopelli vibes in your future", "what was that? what the FUCK was that? WTF??? what?? no! are you fucking shitting me right now. what the fuck. what the.. why? what is this fucking horsecock? Try asking for .huntiscope again", "ratio + your a toon", "find god"]
     
     await ctx.send(responses[randint(0, len(responses) - 1)])
 
