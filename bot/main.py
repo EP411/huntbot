@@ -520,4 +520,4 @@ async def on_message_edit(before, after):
 
 
 
-client.run(#TOKEN)
+client.run(TOKEN)
